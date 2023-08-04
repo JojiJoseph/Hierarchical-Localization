@@ -14,6 +14,4 @@
 	path = third_party/silk
 	url = https://github.com/JojiJoseph/silk
 	branch = joji/dev
-[submodule "silk"]
-	path = silk
-	url = https://github.com/JojiJoseph/silk
+

@@ -119,6 +119,12 @@ confs = {
             'resize_max': 1600,
         },
     },
+    'silk': {
+        'preprocessing': {'resize_max': 1024},
+        'model': {
+            'name': 'silk'
+        }
+    },
     # Global descriptors
     'dir': {
         'output': 'global-feats-dir',
