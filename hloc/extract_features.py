@@ -120,7 +120,10 @@ confs = {
         },
     },
     'silk': {
-        'preprocessing': {'resize_max': 1024},
+        'preprocessing': {
+            'resize_max': None,
+            'grayscale': True
+        },
         'model': {
             'name': 'silk'
         }

@@ -2,8 +2,11 @@ import sys
 from pathlib import Path
 import torch
 import torchvision
-
+import matplotlib.pyplot as plt
 from ..utils.base_model import BaseModel
+import matplotlib.pyplot as plt
+import cv2
+import numpy as np
 
 sys.path.append(str(Path(__file__).parent / '../../third_party'))
 from silk import SiLK as SiLKModel # noqa E402
@@ -44,8 +47,13 @@ class SiLK(BaseModel):
         self.model = SiLKModel(device=conf['device'], default_outputs=("sparse_positions", "sparse_descriptors", "probability"))
 
     def _forward(self, data):
-        # print(data['image'].shape)
-        image = torchvision.transforms.Grayscale()(data['image'])
+        # print("data shape etc", data['image'].shape,data['image'].max(),data['image'].min())
+        # plt.imshow(data['image'].cpu().numpy()[0].transpose(1,2,0))
+        # plt.show()
+        # print()
+        # exit()
+        # image = torchvision.transforms.Grayscale()(data['image'])
+        image = data['image']
         # print(image.shape, image.max(), image.min())
         to_ret = self.model(image)
         # print(len(to_ret))
@@ -61,6 +69,12 @@ class SiLK(BaseModel):
         probs = to_ret[2][0].reshape((-1,1))
         probs = probs[to_ret[0][0][:,-1].detach().long()]
         # print("prob_shape", to_ret[2].shape,to_ret[2].max(), to_ret[2].min())
+        # img_cv = data['image'].cpu().numpy()[0].transpose(1,2,0)[:,:,0]
+        # print(img_cv.dtype, img_cv.shape)
+        # for x,y in keypoints.cpu().numpy():
+            # cv2.circle(img_cv, np.int0((x,y)), 20, (1,0,0),-1)
+        # plt.imshow(img_cv)
+        # plt.show()
         output = {
             "keypoints": [keypoints],
             "scores": [probs],

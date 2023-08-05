@@ -79,7 +79,15 @@ confs = {
         'model': {
             'name': 'adalam'
         },
-    }
+    },
+    'NN-silk': {
+        'output': 'matches-NN-mutual-ratio.8',
+        'model': {
+            'name': 'nearest_neighbor',
+            'do_mutual_check': True,
+            'ratio_threshold': 0.8,
+        },
+    },
 }
 
 
