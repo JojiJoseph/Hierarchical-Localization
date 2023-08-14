@@ -44,11 +44,16 @@ class NearestNeighbor(BaseModel):
                 'matches0': matches0,
                 'matching_scores0': torch.zeros_like(matches0)
             }
+        if self.conf['normalize']:
+            # print(torch.linalg.norm(data['descriptors0'],dim=1))
+            data['descriptors0'] /= torch.linalg.norm(data['descriptors0'],dim=1,keepdim=True)
+            data['descriptors1'] /= torch.linalg.norm(data['descriptors1'],dim=1,keepdim=True)
         ratio_threshold = self.conf['ratio_threshold']
         if data['descriptors0'].size(-1) == 1 or data['descriptors1'].size(-1) == 1:
             ratio_threshold = None
         sim = torch.einsum(
             'bdn,bdm->bnm', data['descriptors0'], data['descriptors1'])
+        print(data['descriptors0'].shape, self.conf['normalize'])
         matches0, scores0 = find_nn(
             sim, ratio_threshold, self.conf['distance_threshold'])
         if self.conf['do_mutual_check']:

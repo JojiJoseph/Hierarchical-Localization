@@ -47,6 +47,10 @@ class NearestNeighbor(BaseModel):
         ratio_threshold = self.conf['ratio_threshold']
         if data['descriptors0'].size(-1) == 1 or data['descriptors1'].size(-1) == 1:
             ratio_threshold = None
+        print(data['descriptors0'].shape, self.conf['normalize'])
+        exit()
+        if self.conf['normalize']:
+            data['descriptrs0']
         sim = torch.einsum(
             'bdn,bdm->bnm', data['descriptors0'], data['descriptors1'])
         matches0, scores0 = find_nn(
